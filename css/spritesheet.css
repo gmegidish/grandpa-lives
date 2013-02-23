@@ -1,0 +1,165 @@
+.sprite {
+    background: url(../gfx/spritesheet.png) no-repeat;
+}
+
+.sprite-attack_left_0-png {
+    width: 50px;
+    height: 67px;
+    background-position: -305px -78px;
+}
+
+.sprite-attack_left_1-png {
+    width: 50px;
+    height: 67px;
+    background-position: -244px -78px;
+}
+
+.sprite-attack_left_2-png {
+    width: 50px;
+    height: 67px;
+    background-position: -183px -78px;
+}
+
+.sprite-attack_right_0-png {
+    width: 50px;
+    height: 67px;
+    background-position: -122px -78px;
+}
+
+.sprite-attack_right_1-png {
+    width: 50px;
+    height: 67px;
+    background-position: -61px -78px;
+}
+
+.sprite-attack_right_2-png {
+    width: 50px;
+    height: 67px;
+    background-position: -0px -78px;
+}
+
+.sprite-cursor-png {
+    width: 37px;
+    height: 32px;
+    background-position: -134px -287px;
+}
+
+.sprite-happy_left_0-png {
+    width: 39px;
+    height: 67px;
+    background-position: -0px -234px;
+}
+
+.sprite-happy_left_1-png {
+    width: 39px;
+    height: 67px;
+    background-position: -400px -156px;
+}
+
+.sprite-happy_left_2-png {
+    width: 39px;
+    height: 67px;
+    background-position: -350px -156px;
+}
+
+.sprite-happy_right_0-png {
+    width: 39px;
+    height: 67px;
+    background-position: -300px -156px;
+}
+
+.sprite-happy_right_1-png {
+    width: 39px;
+    height: 67px;
+    background-position: -250px -156px;
+}
+
+.sprite-happy_right_2-png {
+    width: 39px;
+    height: 67px;
+    background-position: -200px -156px;
+}
+
+.sprite-leaves-png {
+    width: 462px;
+    height: 28px;
+    background-position: -0px -0px;
+}
+
+.sprite-lives-png {
+    width: 422px;
+    height: 28px;
+    background-position: -0px -39px;
+}
+
+.sprite-player_left_0-png {
+    width: 43px;
+    height: 42px;
+    background-position: -404px -234px;
+}
+
+.sprite-player_left_1-png {
+    width: 43px;
+    height: 42px;
+    background-position: -350px -234px;
+}
+
+.sprite-player_left_2-png {
+    width: 43px;
+    height: 42px;
+    background-position: -296px -234px;
+}
+
+.sprite-player_right_0-png {
+    width: 43px;
+    height: 42px;
+    background-position: -242px -234px;
+}
+
+.sprite-player_right_1-png {
+    width: 43px;
+    height: 42px;
+    background-position: -188px -234px;
+}
+
+.sprite-player_right_2-png {
+    width: 43px;
+    height: 42px;
+    background-position: -134px -234px;
+}
+
+.sprite-zombie_left_0-png {
+    width: 39px;
+    height: 67px;
+    background-position: -150px -156px;
+}
+
+.sprite-zombie_left_1-png {
+    width: 39px;
+    height: 67px;
+    background-position: -100px -156px;
+}
+
+.sprite-zombie_left_2-png {
+    width: 39px;
+    height: 67px;
+    background-position: -50px -156px;
+}
+
+.sprite-zombie_right_0-png {
+    width: 39px;
+    height: 67px;
+    background-position: -0px -156px;
+}
+
+.sprite-zombie_right_1-png {
+    width: 39px;
+    height: 67px;
+    background-position: -416px -78px;
+}
+
+.sprite-zombie_right_2-png {
+    width: 39px;
+    height: 67px;
+    background-position: -366px -78px;
+}

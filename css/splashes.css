@@ -1,0 +1,75 @@
+.sprite {
+    background: url(gfx/splash.png) no-repeat;
+}
+
+.sprite-splash_0_0-png {
+    width: 286px;
+    height: 283px;
+    background-position: -891px -588px;
+}
+
+.sprite-splash_0_1-png {
+    width: 286px;
+    height: 283px;
+    background-position: -891px -294px;
+}
+
+.sprite-splash_0_2-png {
+    width: 286px;
+    height: 283px;
+    background-position: -891px -0px;
+}
+
+.sprite-splash_0_3-png {
+    width: 286px;
+    height: 283px;
+    background-position: -594px -588px;
+}
+
+.sprite-splash_1_0-png {
+    width: 286px;
+    height: 283px;
+    background-position: -297px -588px;
+}
+
+.sprite-splash_1_1-png {
+    width: 286px;
+    height: 283px;
+    background-position: -0px -588px;
+}
+
+.sprite-splash_1_2-png {
+    width: 286px;
+    height: 283px;
+    background-position: -594px -294px;
+}
+
+.sprite-splash_1_3-png {
+    width: 286px;
+    height: 283px;
+    background-position: -297px -294px;
+}
+
+.sprite-splash_2_0-png {
+    width: 286px;
+    height: 283px;
+    background-position: -0px -294px;
+}
+
+.sprite-splash_2_1-png {
+    width: 286px;
+    height: 283px;
+    background-position: -594px -0px;
+}
+
+.sprite-splash_2_2-png {
+    width: 286px;
+    height: 283px;
+    background-position: -297px -0px;
+}
+
+.sprite-splash_2_3-png {
+    width: 286px;
+    height: 283px;
+    background-position: -0px -0px;
+}
