@@ -55,8 +55,8 @@
 
 			d.setAttribute("class", "sprite sprite-player_left_0-png");
 			d.style.position = "absolute";
-			d.style.top = 300;
-			d.style.left = 400;
+			d.style.top = (475 - 42)/2;
+			d.style.left = (760 - 43)/2;
 			d.style.zIndex = parseInt(d.style.top) + 42;
 
 			this.div = d;
@@ -90,6 +90,8 @@
 			this.zombies = [];
 
 			this.cheatMode = false;
+
+			this.paused = false;
 
 			this.menuFields = {
 				currentOption: 0,
@@ -128,20 +130,17 @@
 				// delete all other elements
 				this.gameCanvas.innerHTML = "";
 
-				// add background graphics
-				var t = document.createElement("div");
-				t.style.width = "100%"
-				t.style.height = "100%";
-				t.style.position = "absolute";
-				t.style.backgroundImage = "url(gfx/menu2.png)";
-				t.style.top = 0;
-				t.style.left = 0;
-				t.style.zIndex = 0;
-				this.gameCanvas.appendChild(t); 
+				var back = $("<div></div>");
+				back.css("width", "100%");
+				back.css("height", "100%");
+				back.css("position", "absolute");
+				back.css("top", 0);
+				back.css("left", 0);
+				back.css("backgroundColor", "#000");
+				$(this.gameCanvas).append(back);
 
 				var c = document.createElement("div");
-				c.setAttribute("class", "sprite cursor");
-				c.style.backgroundImage = "url(gfx/cursor.png)";
+				c.setAttribute("class", "sprite sprite-cursor-png");
 				c.style.position = "absolute";
 				c.style.top = 314;
 				c.style.left = 126;
@@ -151,20 +150,16 @@
 				this.gameCanvas.appendChild(c);
 
 				var logo = $("<div></div>");
-				logo.css("backgroundImage", "url(gfx/logo-300.png)");
+				logo.attr("class", "sprite sprite-logo-300-png");
 				logo.css("position", "absolute");
-				logo.css("width", 300);
-				logo.css("height", 213);
 				logo.css("top", 50);
 				logo.css("left", 64);
 				logo.css("zIndex", 1);
 				$(this.gameCanvas).append(logo);				
 
 				var start = $("<div></div>");
-				start.css("backgroundImage", "url(gfx/start.png)");
+				start.attr("class", "sprite sprite-start-png");
 				start.css("position", "absolute");
-				start.css("width", 160);
-				start.css("height", 14);
 				start.css("top", 316);
 				start.css("left", 152);
 				start.css("zIndex", 1);
@@ -172,10 +167,8 @@
 				$(this.gameCanvas).append(start);				
 
 				var cheat = $("<div></div>");
-				cheat.css("backgroundImage", "url(gfx/cheat.png)");
+				cheat.attr("class", "sprite sprite-cheat-png");
 				cheat.css("position", "absolute");
-				cheat.css("width", 76);
-				cheat.css("height", 14);
 				cheat.css("top", 349);
 				cheat.css("left", 152);
 				cheat.css("zIndex", 1);
@@ -183,21 +176,34 @@
 				$(this.gameCanvas).append(cheat);
 
 				var right = document.createElement("div");
-				right.setAttribute("class", "sprite sprite-menu-right-zombie");
-				right.style.backgroundImage = "url(gfx/menu-right-zombie.png)";
+				right.setAttribute("class", "sprite sprite-menu-right-zombie-png");
 				right.style.position = "absolute";
-				right.style.width = 380;
-				right.style.height = 475;
 				right.style.top = 0;
 				right.style.left = 760;
 				right.style.zIndex = 1;
 				this.gameCanvas.appendChild(right);				
 
-				$(right).animate({
-					left: 760-380
-				}, 200);
+				var overlay = $("<div></div>");
+				overlay.attr("class", "white-overlay");
+				overlay.css("width", "100%");
+				overlay.css("height", "100%");
+				overlay.css("position", "absolute");
+				overlay.css("top", 0);
+				overlay.css("left", 0);
+				overlay.css("zIndex", 100);
+				overlay.css("opacity", 0);
+				overlay.css("backgroundColor", "#fff");
+				$(this.gameCanvas).append(overlay);
 
 				var that = this;
+
+				$(right).animate({
+					left: 760-380
+				}, 200, "swing", function() {
+					// when animation is done
+					that.fadeOutMenuOverlay();
+				});
+
 				$(start).click(function() {
 					that.cheatMode = false;
 					that.initGame();
@@ -206,6 +212,16 @@
 				$(cheat).click(function() {
 					that.cheatMode = true;
 					that.initGame();
+				});
+			}
+	
+			this.fadeOutMenuOverlay = function() {
+				var overlay = $(".white-overlay");
+				overlay.css("opacity", 100);
+				overlay.animate({
+					opacity: 0
+				}, 500, "swing", function() {
+					overlay.remove();
 				});
 			}
 
@@ -262,7 +278,7 @@
 					if (this.girl.y > 0) {
 						this.girl.y -= 3;
 						this.girl.div.style.top = this.girl.y;
-						this.girl.div.style.zIndex = this.girl.y + 42;
+						this.girl.div.style.zIndex = parseInt(this.girl.y) + 42;
 		
 						frameChanged = true;
 					}
@@ -270,7 +286,7 @@
 					if (this.girl.y < 475) {
 						this.girl.y += 3;
 						this.girl.div.style.top = this.girl.y;
-						this.girl.div.style.zIndex = this.girl.y + 42;
+						this.girl.div.style.zIndex = parseInt(this.girl.y) + 42;
 						frameChanged = true;
 					}
 				}
@@ -413,11 +429,17 @@
 					this.keys |= this.KEY_DOWN;
 					e.preventDefault();
 					break;
+
+					case 80:
+					this.paused ^= 1;
+					e.preventDefault();
+					break;
 				}
 
 			}
 
 			this.onKeyUp = function(e) {
+				console.dir(e);
 				switch(e.keyCode) {
 					case 32:
 					this.keys &= ~this.KEY_ACTION;
@@ -510,7 +532,7 @@
 				}
 
 				if (this.cheatMode) {
-
+				        // flash grandpa
 					var o = (Math.floor(this.gameTime/150))%2;
 					this.zombies[0].div.style.opacity = o;
 				}
@@ -536,7 +558,7 @@
 						this.menuFields.waitingForKeyRelease = true;
 						this.menuFields.currentOption ^= 1;
 
-						var c = $(".cursor");
+						var c = $(".sprite-cursor-png");
 						var y = 314 + ((this.menuFields.currentOption == 0) ? 0 : 33);
 						c.css("top", y);
 					}
@@ -554,8 +576,11 @@
 			}
 
 			this.gamePlayTick = function() {
-				this.processInput();
-				this.singleZombieStep();
+
+				if (!this.paused) {
+					this.processInput();
+					this.singleZombieStep();
+				}
 			}		
 
 			this.hitOrMissTick = function() {

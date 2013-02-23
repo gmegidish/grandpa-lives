@@ -5,161 +5,185 @@
 .sprite-attack_left_0-png {
     width: 50px;
     height: 67px;
-    background-position: -305px -78px;
+    background-position: -733px -68px;
 }
 
 .sprite-attack_left_1-png {
     width: 50px;
     height: 67px;
-    background-position: -244px -78px;
+    background-position: -682px -68px;
 }
 
 .sprite-attack_left_2-png {
     width: 50px;
     height: 67px;
-    background-position: -183px -78px;
+    background-position: -835px -0px;
 }
 
 .sprite-attack_right_0-png {
     width: 50px;
     height: 67px;
-    background-position: -122px -78px;
+    background-position: -784px -0px;
 }
 
 .sprite-attack_right_1-png {
     width: 50px;
     height: 67px;
-    background-position: -61px -78px;
+    background-position: -733px -0px;
 }
 
 .sprite-attack_right_2-png {
     width: 50px;
     height: 67px;
-    background-position: -0px -78px;
+    background-position: -682px -0px;
+}
+
+.sprite-cheat-png {
+    width: 76px;
+    height: 14px;
+    background-position: -845px -272px;
 }
 
 .sprite-cursor-png {
-    width: 37px;
-    height: 32px;
-    background-position: -134px -287px;
+    width: 11px;
+    height: 16px;
+    background-position: -886px -0px;
 }
 
 .sprite-happy_left_0-png {
     width: 39px;
     height: 67px;
-    background-position: -0px -234px;
+    background-position: -541px -272px;
 }
 
 .sprite-happy_left_1-png {
     width: 39px;
     height: 67px;
-    background-position: -400px -156px;
+    background-position: -501px -272px;
 }
 
 .sprite-happy_left_2-png {
     width: 39px;
     height: 67px;
-    background-position: -350px -156px;
+    background-position: -461px -272px;
 }
 
 .sprite-happy_right_0-png {
     width: 39px;
     height: 67px;
-    background-position: -300px -156px;
+    background-position: -421px -272px;
 }
 
 .sprite-happy_right_1-png {
     width: 39px;
     height: 67px;
-    background-position: -250px -156px;
+    background-position: -381px -272px;
 }
 
 .sprite-happy_right_2-png {
     width: 39px;
     height: 67px;
-    background-position: -200px -156px;
+    background-position: -884px -204px;
 }
 
 .sprite-leaves-png {
     width: 462px;
     height: 28px;
-    background-position: -0px -0px;
+    background-position: -381px -214px;
 }
 
 .sprite-lives-png {
     width: 422px;
     height: 28px;
-    background-position: -0px -39px;
+    background-position: -381px -243px;
+}
+
+.sprite-logo-300-png {
+    width: 300px;
+    height: 213px;
+    background-position: -381px -0px;
+}
+
+.sprite-menu-right-zombie-png {
+    width: 380px;
+    height: 475px;
+    background-position: -0px -0px;
 }
 
 .sprite-player_left_0-png {
     width: 43px;
     height: 42px;
-    background-position: -404px -234px;
+    background-position: -801px -272px;
 }
 
 .sprite-player_left_1-png {
     width: 43px;
     height: 42px;
-    background-position: -350px -234px;
+    background-position: -757px -272px;
 }
 
 .sprite-player_left_2-png {
     width: 43px;
     height: 42px;
-    background-position: -296px -234px;
+    background-position: -713px -272px;
 }
 
 .sprite-player_right_0-png {
     width: 43px;
     height: 42px;
-    background-position: -242px -234px;
+    background-position: -669px -272px;
 }
 
 .sprite-player_right_1-png {
     width: 43px;
     height: 42px;
-    background-position: -188px -234px;
+    background-position: -625px -272px;
 }
 
 .sprite-player_right_2-png {
     width: 43px;
     height: 42px;
-    background-position: -134px -234px;
+    background-position: -581px -272px;
+}
+
+.sprite-start-png {
+    width: 160px;
+    height: 14px;
+    background-position: -682px -136px;
 }
 
 .sprite-zombie_left_0-png {
     width: 39px;
     height: 67px;
-    background-position: -150px -156px;
+    background-position: -844px -204px;
 }
 
 .sprite-zombie_left_1-png {
     width: 39px;
     height: 67px;
-    background-position: -100px -156px;
+    background-position: -883px -136px;
 }
 
 .sprite-zombie_left_2-png {
     width: 39px;
     height: 67px;
-    background-position: -50px -156px;
+    background-position: -843px -136px;
 }
 
 .sprite-zombie_right_0-png {
     width: 39px;
     height: 67px;
-    background-position: -0px -156px;
+    background-position: -864px -68px;
 }
 
 .sprite-zombie_right_1-png {
     width: 39px;
     height: 67px;
-    background-position: -416px -78px;
+    background-position: -824px -68px;
 }
 
 .sprite-zombie_right_2-png {
     width: 39px;
     height: 67px;
-    background-position: -366px -78px;
+    background-position: -784px -68px;
 }
