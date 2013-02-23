@@ -3,9 +3,35 @@
 	<head>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 		<link rel="stylesheet" href="css/spritesheet.css">
+		<link rel="stylesheet" href="css/splashes.css">
 	</head>
 	<body style="margin: 0px;">
 		<div id="canvas" style="width: 760px; height: 475px; position: relative; overflow: hidden;"></div>
+
+		<audio id="audio-heartbeat" preload="preload">
+			<!-- <source src="sfx/heartbeat.mp3" type="audio/mpeg"> -->
+			<source src="sfx/heartbeat.ogg" type="audio/ogg">
+		</audio>
+
+		<audio id="audio-title" preload="preload">
+			<!-- <source src="sfx/heartbeat.mp3" type="audio/mpeg"> -->
+			<source src="sfx/title.ogg" type="audio/ogg">
+		</audio>
+
+		<audio id="audio-game-start" preload="preload">
+			<!-- <source src="sfx/heartbeat.mp3" type="audio/mpeg"> -->
+			<source src="sfx/MM_1up.ogg" type="audio/ogg">
+		</audio>
+
+		<audio id="audio-hit" preload="preload">
+			<!-- <source src="sfx/heartbeat.mp3" type="audio/mpeg"> -->
+			<source src="sfx/MM_Power_Up.ogg" type="audio/ogg">
+		</audio>
+
+		<audio id="audio-miss" preload="preload">
+			<!-- <source src="sfx/heartbeat.mp3" type="audio/mpeg"> -->
+			<source src="sfx/SMB_Smash.ogg" type="audio/ogg">
+		</audio>
 
 		<script type="text/javascript">
 
@@ -77,6 +103,8 @@
 			this.ZOMBIE_COUNT = 200;
 			this.ZOMBIE_SPR_HEIGHT = 67;
 
+			this.TIME_TILL_MASS_MURDER = 250/15;
+
 			this.GAME_STATE_MENU = 0;
 			this.GAME_STATE_PLAYING = 1;
 			this.GAME_STATE_HEARTATTACK = 2;
@@ -86,6 +114,10 @@
 			this.ZOMBIE_MODE_NORMAL = 0;
 			this.ZOMBIE_MODE_ATTACK = 1;
 			this.ZOMBIE_MODE_HAPPY = 2;
+
+			this.DISTANCE_TO_SUCCEED = 60.0;
+
+			this.TIME_BETWEEN_HEARTBEATS = 1000;
 
 			this.zombies = [];
 
@@ -112,6 +144,8 @@
 			this.gameState = this.GAME_STATE_MENU;
 
 			this.gameCanvas = document.getElementById("canvas");
+
+			this.lastHeartbeat = 0;
 
 			this.initialize = function() {
 				document.addEventListener("keyup", $.proxy(this.onKeyUp, this), false);
@@ -213,6 +247,10 @@
 					that.cheatMode = true;
 					that.initGame();
 				});
+
+				$("#audio-title")[0].loop = true;
+				$("#audio-title").attr("currentTime", 0);
+				$("#audio-title")[0].play();
 			}
 	
 			this.fadeOutMenuOverlay = function() {
@@ -226,6 +264,9 @@
 			}
 
 			this.initGame = function() {
+
+				$("#audio-title")[0].pause();
+				$("#audio-game-start")[0].play();
 
 				this.gameState = this.GAME_STATE_PLAYING;
 				this.gameCanvas.innerHTML = "";
@@ -251,7 +292,60 @@
 				t.style.left = 0;
 				t.style.zIndex = 0;
 				this.gameCanvas.appendChild(t);
+
+				var borderTop = $("<div></div>");
+				borderTop.attr("class", "border border-top");
+				borderTop.css("width", "100%");
+				borderTop.css("height", "20");
+				borderTop.css("position", "absolute");
+				borderTop.css("top", 0);
+				borderTop.css("left", 0);
+				borderTop.css("zIndex", 10000);
+				borderTop.css("backgroundColor", "#f00");
+				$(this.gameCanvas).append(borderTop);
+
+				var borderLeft = $("<div></div>");
+				borderLeft.attr("class", "border border-left");
+				borderLeft.css("width", "20");
+				borderLeft.css("height", "100%");
+				borderLeft.css("position", "absolute");
+				borderLeft.css("top", 0);
+				borderLeft.css("left", 0);
+				borderLeft.css("zIndex", 10000);
+				borderLeft.css("backgroundColor", "#f00");
+				$(this.gameCanvas).append(borderLeft);
+
+				var borderRight = $("<div></div>");
+				borderRight.attr("class", "border border-right");
+				borderRight.css("width", "20");
+				borderRight.css("height", "100%");
+				borderRight.css("position", "absolute");
+				borderRight.css("top", 0);
+				borderRight.css("right", 0);
+				borderRight.css("zIndex", 10000);
+				borderRight.css("backgroundColor", "#f00");
+				$(this.gameCanvas).append(borderRight);
+
+				var borderBottom = $("<div></div>");
+				borderBottom.attr("class", "border border-bottom");
+				borderBottom.css("width", "100%");
+				borderBottom.css("height", "20");
+				borderBottom.css("position", "absolute");
+				borderBottom.css("bottom", 0);
+				borderBottom.css("left", 0);
+				borderBottom.css("zIndex", 10000);
+				borderBottom.css("backgroundColor", "#f00");
+				$(this.gameCanvas).append(borderBottom);
 			}
+
+			this.distanceToGrandpa = function() {
+				var dx = (this.girl.x + 43/2) - (this.zombies[0].x + 39/2);
+				var dy = (this.girl.y + 42/2) - (this.zombies[0].y + 67/2);
+				var distance = Math.sqrt(dx*dx + dy*dy);
+	
+				return distance;
+			}
+
 
 			this.processInput = function() {
 
@@ -305,6 +399,9 @@
 			this.initHeartattack = function() {
 				this.gameState = this.GAME_STATE_HEARTATTACK;
 				this.heartattackFields.start = +new Date();
+
+				$(".border").hide();
+				$("#audio-heartbeat")[0].pause();
 			}
 
 			this.initHit = function() {
@@ -335,14 +432,15 @@
 				this.gameCanvas.appendChild(div);
 
 				this.flashingText = div;
+
+				$("#audio-hit")[0].play();
 			}
 
 			this.initMiss = function() {
 				this.gameState = this.GAME_STATE_MISS;
 				this.hitMissFields.startTime = this.gameTime;
 	
-	                        var MASS_MURDER_RADIUS = 120;
-				var TIME_TILL_MASS_MURDER = 250/15;
+	                        var MASS_MURDER_RADIUS = 96;
 
 				// Mix_PlayChannel(-1, missSfx, 0);
 				for (var i=1; i<this.zombies.length; i++) {
@@ -355,8 +453,8 @@
 			
 					this.zombies[i].destX = this.girl.x + x;
 					this.zombies[i].destY = this.girl.y + y;
-					this.zombies[i].speedX = Math.abs(this.zombies[i].destX - this.zombies[i].x)/TIME_TILL_MASS_MURDER;
-					this.zombies[i].speedY = Math.abs(this.zombies[i].destY - this.zombies[i].y)/TIME_TILL_MASS_MURDER;
+					this.zombies[i].speedX = Math.abs(this.zombies[i].destX - this.zombies[i].x)/this.TIME_TILL_MASS_MURDER;
+					this.zombies[i].speedY = Math.abs(this.zombies[i].destY - this.zombies[i].y)/this.TIME_TILL_MASS_MURDER;
 					this.zombies[i].frame = Math.floor(Math.random() * 12);
 					this.zombies[i].mode = this.ZOMBIE_MODE_ATTACK;
 				}
@@ -394,12 +492,31 @@
 				this.gameCanvas.appendChild(div);
 
 				this.flashingText = div;
+
+				var splash = $("<div></div>");
+				splash.attr("class", "splash-sprite sprite-splash_0_0-png splash");
+				splash.css("position", "absolute");
+				splash.css("left", parseInt(this.girl.x) + 43/2 - 286/2);
+				splash.css("top", parseInt(this.girl.y) + 42/2 - 283);
+				splash.css("zIndex", 40000);
+				splash.css("display", "none");
+				$(this.gameCanvas).append(splash);
+
+				this.hitMissFields.splashAnim = Math.floor(Math.random() * 3);
+				this.hitMissFields.splashFrame = 0;
+
+				$("#audio-miss")[0].play();
 			}
 
 			this.heartattackTick = function() {
 				var diff = this.gameTime - this.heartattackFields.start;
 				if (diff > 2000) {
-					this.initHit();
+
+					if (this.distanceToGrandpa() < this.DISTANCE_TO_SUCCEED) {
+						this.initHit();
+					} else {
+						this.initMiss();
+					}
 				}
 			}
 
@@ -541,13 +658,36 @@
 					var diff = this.gameTime - this.hitMissFields.startTime;
 					var flipflop = Math.floor(diff/250) % 2;
 					this.flashingText.style.opacity = (1 - flipflop);
+				}
 
+				if (this.gameState == this.GAME_STATE_HIT) {
 					this.girl.x += 1.5;
 					this.girl.div.style.left = this.girl.x;
 					this.girl.direction = "right";
 					this.girl.frame++;
 					this.girl.frame %= 3;
 					this.girl.div.setAttribute("class", "sprite sprite-player_" + this.girl.direction + "_" + this.girl.frame + "-png");
+				}
+
+				if (this.gameState == this.GAME_STATE_MISS) {
+			
+					var diff = this.gameTime - this.hitMissFields.startTime;
+					if (diff >= this.TIME_TILL_MASS_MURDER) {
+						// only after crowd cought the girl
+					
+						//if ((diff % 3) == 0) {
+						{
+							this.hitMissFields.splashFrame++;
+							if (this.hitMissFields.splashFrame == 4) {
+								this.hitMissFields.splashFrame = 0;
+								this.hitMissFields.splashAnim = Math.floor(Math.random() * 3);
+							}
+						}
+			
+						var name = "sprite-splash_" + this.hitMissFields.splashAnim + "_" + this.hitMissFields.splashFrame + "-png";
+						$(".splash").attr("class", "splash splash-sprite " + name);
+						$(".splash").css("display", "block");
+					}
 				}
 			}
 
@@ -575,11 +715,77 @@
 				}
 			}
 
+			this.updateSound = function() {
+	
+				if ((this.gameTime - this.lastHeartbeat) >= this.TIME_BETWEEN_HEARTBEATS) {
+					// time to play another heartbeat
+					this.lastHeartbeat = this.gameTime;
+		
+					var distance = this.distanceToGrandpa();
+					var volume = 1.0 - ((distance/800.0));
+					//Mix_Volume(-1, (int)volume);
+					//Mix_PlayChannel(-1, heartbeatWave, 0);
+
+					$("#audio-heartbeat").attr("volume", volume);
+					$("#audio-heartbeat")[0].play();
+				}
+			}
+
+			this.updateBorder = function() {
+
+				var A0 = 200;
+				var A1 = 400;
+				var diff = this.gameTime - this.lastHeartbeat;
+
+				var distance = this.distanceToGrandpa();
+				var borderWidth = Math.max(30 - 26*(distance/500), 1);
+	
+				var red = "#aa0000";
+				var pink = "#ff5555";
+				var c = (diff >= A0 && diff <= A1) ? pink : red;
+				$(".border").css("backgroundColor", c);
+
+				$(".border-top").css("height", borderWidth);
+				$(".border-bottom").css("height", borderWidth);
+				$(".border-left").css("width", borderWidth);
+				$(".border-right").css("width", borderWidth);
+				/*
+static void drawBorder() {
+	
+	float A0 = 0.20f;
+	float A1 = 0.40f;
+	float diff = game.time - game.lastHeartbeat;
+
+	float distance = distanceToGrandpa();
+	int borderWidth = 30 - 26*(distance / 500.f);
+	if (borderWidth < 0) {
+		borderWidth = 1;
+	}
+	
+	int red = SDL_MapRGB(screen->format, 0xaa, 0x00, 0x00);
+	int pink = SDL_MapRGB(screen->format, 0xff, 0x55, 0x55);
+	int c = (diff >= A0 && diff <= A1) ? pink : red;
+	
+	SDL_Rect top = {0, 0, screen->w, borderWidth};
+	SDL_Rect left = {0, 0, borderWidth, screen->h};
+	SDL_Rect bottom = {0, screen->h - borderWidth,  screen->w, borderWidth};
+	SDL_Rect right = {screen->w - borderWidth, 0, borderWidth, screen->h};
+	SDL_FillRect(screen, &top, c);
+	SDL_FillRect(screen, &left, c);
+	SDL_FillRect(screen, &bottom, c);
+	SDL_FillRect(screen, &right, c);
+}
+				*/
+
+			}
+
 			this.gamePlayTick = function() {
 
 				if (!this.paused) {
 					this.processInput();
 					this.singleZombieStep();
+					this.updateSound();
+					this.updateBorder();
 				}
 			}		
 

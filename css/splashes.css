@@ -1,5 +1,5 @@
-.sprite {
-    background: url(gfx/splash.png) no-repeat;
+.splash-sprite {
+    background: url(../gfx/splashes.png) no-repeat;
 }
 
 .sprite-splash_0_0-png {
